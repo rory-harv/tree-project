@@ -4,10 +4,10 @@
 class Point:
     """All info on points being used for quadtree."""
 
-    def __init__(self, x, y, data: str = None):
+    def __init__(self, x, y, data = None):
         self.x = x  # x-coord
         self.y = y  # y-coord
-        self.data = data
+        self.data = data    # data stored within the point
     
     def getData(self):
         """Gets name/data of point inserted into the quadtree."""
@@ -100,7 +100,13 @@ class Quadtree:
             
             return False # does not occur if node's point is within the boundary
         
+    def delete(self, point: Point) -> bool:
+        """Deletes point from the quadtree."""
+        if point is None:
+            return
 
+        if not self.boundary.containsPoint(point):
+            return False
         
 
 if __name__ == '__main__':
