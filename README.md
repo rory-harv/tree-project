@@ -27,6 +27,13 @@ Brief explanation of how your tree works
 Time/space complexity of key operations
 Any interesting implementation choices
 Evolution of the Interface
+
+- Return type for insert changed from None to bool in order to determine if the insert can occur or not, rather than simply inserting it regardless.
+- inBoundary became containsPoint to better understand which points are already contained in the quadtree.
+- Rectangle and Point classes introduced to help Quadtree construction and searching/traversing. 
+
+
+
 What changed from your initial design?
 Why did you need those changes?
 What did you learn from this iterative process?

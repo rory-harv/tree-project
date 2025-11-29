@@ -17,7 +17,7 @@ from typing import Protocol
 class IQuad(Protocol):
 
     def insert(self, node) -> None:
-    """Insert a word into the quadtree.
+    """Insert a point into the quadtree.
     Time: O(log n) - average - where n is the number of points in the quadtree
     Space: O(n) - average/worst - where n is the number of points
     """

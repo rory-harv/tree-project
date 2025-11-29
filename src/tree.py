@@ -11,7 +11,7 @@ class Point:
 class Node:
     """Objects to be stored in the quadtree."""
 
-    def __init__(self, val, isLeaf, topLeft, topRight, bottomLeft, bottomRight):
+    def __init__(self, val: Point, isLeaf: bool, topLeft, topRight, bottomLeft, bottomRight):
         self.val = val
         self.isLeaf = isLeaf    # determines where/what the node is 
         self.topLeft = topLeft
@@ -22,7 +22,7 @@ class Node:
 class Rectangle:
     """Information about the quadrant."""
 
-    def __init__(self, x, y, width, height):
+    def __init__(self, x: int, y: int, width: int, height: int):
         # rectangle measurements 
         self.x = x  
         self.y = y  
@@ -35,7 +35,7 @@ class Rectangle:
         self.top = y - height / 2
         self.bottom = y + height / 2
 
-    def containsPoint(self, point):
+    def containsPoint(self, point: Point):
         """Checks if quadtree contains a certain point."""
         return (self.left <= point.x <= self.right and self.top <= point.y <= self.bottom)
 
@@ -43,15 +43,15 @@ class Rectangle:
 class Quadtree:
     """Quatree implementation."""
 
-    def __init__(self, boundary, n):
-        self.boundary: Rectangle = boundary
+    def __init__(self, boundary: Rectangle, n):
+        self.boundary = boundary
         self.n = n  # max number of points a node can hold before subdividing
         self.points = []
         self.divided = False    # if tree already subdivided
 
     def subdivide(self):
         """Subdivides the quadtree to search and create boundaries."""
-        
+
         x, y, w, h = self.boundary.x, self.boundary.y, self.boundary.width, self.boundary.height
         halfw, halfh = w / 2, h / 2
 
@@ -69,10 +69,15 @@ class Quadtree:
 
         self.divided = True # sets subdivided as true 
 
-    def insert(self, node):
+    def insert(self, node: Node) -> bool:
         """Inserts a node into the quadtree."""
         if node is None:
             return
+        
+        if not self.boundary.containsPoint(node.val):
+            return 
+        
+
         
 
 if __name__ == '__main__':
