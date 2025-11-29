@@ -20,7 +20,7 @@ class Node:
         self.bottomRight = bottomRight
 
 class Rectangle:
-    """Information about the quadrant."""
+    """Information about the quadrant and boundaries."""
 
     def __init__(self, x: int, y: int, width: int, height: int):
         # rectangle measurements 
