@@ -4,9 +4,14 @@
 class Point:
     """All info on points being used for quadtree."""
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, data: str = None):
         self.x = x  # x-coord
         self.y = y  # y-coord
+        self.data = data
+    
+    def getData(self):
+        """Gets name/data of point inserted into the quadtree."""
+        return self.data
 
 class Node:
     """Objects to be stored in the quadtree."""
@@ -69,23 +74,53 @@ class Quadtree:
 
         self.divided = True # sets subdivided as true 
 
-    def insert(self, node: Node) -> bool:
-        """Inserts a node into the quadtree."""
-        if node is None:
+    def insert(self, point: Point) -> bool:
+        """Inserts a node's point into the quadtree."""
+        if point is None:
             return
         
-        if not self.boundary.containsPoint(node.val):
+        if not self.boundary.containsPoint(point):
             return 
+        
+        if len(self.points) < self.n:   # if larger than what the tree can hold 
+            self.points.append(point)
+            return True
+        else:
+            if not self.divided:    # if has not been subdivided 
+                self.subdivide()
+
+            if self.northwest.insert(point):
+                return True
+            if self.northeast.insert(point):
+                return True
+            if self.southwest.insert(point):
+                return True
+            if self.southeast.insert(point):
+                return True
+            
+            return False # does not occur if node's point is within the boundary
         
 
         
 
 if __name__ == '__main__':
 
-    center = Quadtree(Point(0, 0), Point(8, 8))
-    a = Node(Point(1, 1), 1)
-    b = Node(Point(2, 5), 2)
-    c = Node(Point(7, 6), 3)
+    center_boundary = Rectangle(0, 0, 200, 200)
+    quadtree = Quadtree(center_boundary, 4)  # n of 4 points per node
+
+    # insert random points
+
+    quadtree.insert(Point(100, 100, "a"))
+    quadtree.insert(Point(10, 30, "b"))
+    quadtree.insert(Point(75, 15, "c"))
+    quadtree.insert(Point(0, 0, "d"))
+    quadtree.insert(Point(50, 50, "e"))
+
+    for p in quadtree.points:   # checks if nodes properly inserted - yes
+        print(p.getData())
+
+    
+
 
     
 
