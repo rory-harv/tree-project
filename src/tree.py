@@ -54,7 +54,7 @@ class Quadtree:
         self.points = []
         self.divided = False    # if tree already subdivided
 
-    def subdivide(self):
+    def subdivide(self) -> None:
         """Subdivides the quadtree to search and create boundaries."""
 
         x, y, w, h = self.boundary.x, self.boundary.y, self.boundary.width, self.boundary.height
@@ -102,11 +102,58 @@ class Quadtree:
         
     def delete(self, point: Point) -> bool:
         """Deletes point from the quadtree."""
-        if point is None:
+        if point is None:   # can't remove a non existent node
             return
 
-        if not self.boundary.containsPoint(point):
+        if not self.boundary.containsPoint(point):  # can't remove a non existent node
             return False
+        
+        if not self.divided:    # if the quadtree has not been subdivided / leaf node
+            if point in self.points:    
+                self.points.remove(point)   # deletes from list
+                return True
+            return False
+
+        else:   # internal node / recursive calls
+            deleted = False     # creates bool to determine if deleted yet
+            if self.northwest.boundary.containsPoint(point):
+                deleted = self.northwest.delete(point)
+
+            elif self.northeast.boundary.containsPoint(point):
+                deleted = self.northeast.delete(point)
+
+            elif self.southwest.boundary.containsPoint(point):
+                deleted = self.southwest.delete(point)
+
+            elif self.southeast.boundary.containsPoint(point):
+                deleted = self.southeast.delete(point)
+        
+            if deleted:
+                self.merge() # merge if children are empty 
+            return deleted
+        
+    def merge(self) -> None:
+        """Checks if quadtree can merge after deletion."""
+
+        if (not self.northwest.divided and not self.northeast.divided and not 
+            self.southwest.divided and not self.southeast.divided):     # if nothing is divided
+
+            total_points = (len(self.northwest.points) + len(self.northeast.points) +
+                            len(self.southwest.points) + len(self.southeast.points))    # combined points
+            
+            if total_points <= self.n:  # if total number of points larger than what the quadtree can contain
+
+                self.points.extend(self.northwest.points)   # appends directional points to quadtree points list
+                self.points.extend(self.northeast.points)   # extend() unpacks the iterable and adds each of its individual elements to the end of the list it's called on
+                self.points.extend(self.southwest.points)   # instead of append() which adds it as a single element
+                self.points.extend(self.southeast.points)
+
+                self.northwest = None # reset children nodes and mark all as not divided
+                self.northeast = None
+                self.southwest = None
+                self.southeast = None
+                self.divided = False
+
         
 
 if __name__ == '__main__':
@@ -121,8 +168,9 @@ if __name__ == '__main__':
     quadtree.insert(Point(75, 15, "c"))
     quadtree.insert(Point(0, 0, "d"))
     quadtree.insert(Point(50, 50, "e"))
+    quadtree.delete(Point(100, 100, "a")) # deletes point a? - no
 
-    for p in quadtree.points:   # checks if nodes properly inserted - yes
+    for p in quadtree.points:   # checks if nodes properly inserted - no
         print(p.getData())
 
     
