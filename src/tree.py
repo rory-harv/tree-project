@@ -108,7 +108,7 @@ class Quadtree:
         if not self.boundary.containsPoint(point):  # can't remove a non existent node
             return False
         
-        if not self.divided:    # if the quadtree has not been subdivided / leaf node
+        if not self.divided:    # if leaf node / not subdivided
             if point in self.points:    
                 self.points.remove(point)   # deletes from list
                 return True
@@ -158,8 +158,8 @@ class Quadtree:
 
 if __name__ == '__main__':
 
-    center_boundary = Rectangle(0, 0, 200, 200)
-    quadtree = Quadtree(center_boundary, 4)  # n of 4 points per node
+    center_boundary = Rectangle(0, 0, 200, 200) # creates broad boundary box for the tree to be contained within 
+    quadtree = Quadtree(center_boundary, 4)  # n capacity (multiple of 4)
 
     # insert random points
 
@@ -170,7 +170,7 @@ if __name__ == '__main__':
     quadtree.insert(Point(50, 50, "e"))
     quadtree.delete(Point(100, 100, "a")) # deletes point a? - no
 
-    for p in quadtree.points:   # checks if nodes properly inserted - no
+    for p in quadtree.points:   # checks if nodes properly inserted - yes 
         print(p.getData())
 
     
