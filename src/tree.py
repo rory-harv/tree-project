@@ -12,6 +12,9 @@ class Point:
     def getData(self):
         """Gets name/data of point inserted into the quadtree."""
         return self.data
+    
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y and self.data == other.data
 
 class Node:
     """Objects to be stored in the quadtree."""
@@ -77,10 +80,10 @@ class Quadtree:
     def insert(self, point: Point) -> bool:
         """Inserts a node's point into the quadtree."""
         if point is None:
-            return
+            return False
         
         if not self.boundary.containsPoint(point):
-            return 
+            return False
         
         if len(self.points) < self.n:   # if larger than what the tree can hold 
             self.points.append(point)
@@ -91,19 +94,19 @@ class Quadtree:
 
             if self.northwest.insert(point):
                 return True
-            if self.northeast.insert(point):
+            elif self.northeast.insert(point):
                 return True
-            if self.southwest.insert(point):
+            elif self.southwest.insert(point):
                 return True
-            if self.southeast.insert(point):
+            elif self.southeast.insert(point):
                 return True
-            
-            return False # does not occur if node's point is within the boundary
+            else:
+                return False # does not occur if node's point is within the boundary
         
     def delete(self, point: Point) -> bool:
         """Deletes point from the quadtree."""
         if point is None:   # can't remove a non existent node
-            return
+            return False
 
         if not self.boundary.containsPoint(point):  # can't remove a non existent node
             return False
@@ -136,7 +139,7 @@ class Quadtree:
         """Checks if quadtree can merge after deletion."""
 
         if (not self.northwest.divided and not self.northeast.divided and not 
-            self.southwest.divided and not self.southeast.divided):     # if nothing is divided
+            self.southwest.divided and not self.southeast.divided):     # if nothing is subdivided
 
             total_points = (len(self.northwest.points) + len(self.northeast.points) +
                             len(self.southwest.points) + len(self.southeast.points))    # combined points
@@ -168,7 +171,7 @@ if __name__ == '__main__':
     quadtree.insert(Point(75, 15, "c"))
     quadtree.insert(Point(0, 0, "d"))
     quadtree.insert(Point(50, 50, "e"))
-    quadtree.delete(Point(100, 100, "a")) # deletes point a? - no
+    quadtree.delete(Point(10, 30, "b")) # deletes point a? - no
 
     for p in quadtree.points:   # checks if nodes properly inserted - yes 
         print(p.getData())
