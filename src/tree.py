@@ -173,8 +173,6 @@ if __name__ == '__main__':
     quadtree.insert(Point(50, 50, "e"))
     quadtree.delete(Point(10, 30, "b")) # deletes point a? - no
 
-    for p in quadtree.points:   # checks if nodes properly inserted - yes 
-        print(p.getData())
 
     
 
