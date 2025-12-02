@@ -157,13 +157,20 @@ class Quadtree:
                 self.southeast = None
                 self.divided = False
 
+    def createQuad(boundary: Rectangle, n: int):
+        """Creates new Quadtree object."""
+        quadtree = Quadtree(boundary, n)
+        return quadtree
+
         
 
 if __name__ == '__main__':
 
     center_boundary = Rectangle(0, 0, 200, 200) # creates broad boundary box for the tree to be contained within 
-    quadtree = Quadtree(center_boundary, 4)  # n capacity (multiple of 4)
+    #quadtree = Quadtree(center_boundary, 4)  # n capacity (multiple of 4)
 
+    quadtree = Quadtree.createQuad(center_boundary, 4)
+    
     # insert random points
 
     quadtree.insert(Point(100, 100, "a"))
