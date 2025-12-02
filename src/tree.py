@@ -1,5 +1,6 @@
 
 # quad tree implementation 
+from PIL import Image
 
 class Point:
     """All info on points being used for quadtree."""
@@ -56,7 +57,7 @@ class Quadtree:
         self.n = n  # max number of points a node can hold before subdividing
         self.points = []
         self.divided = False    # if tree already subdivided
-
+        
     def subdivide(self) -> None:
         """Subdivides the quadtree to search and create boundaries."""
 
