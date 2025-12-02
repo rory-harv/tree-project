@@ -19,12 +19,6 @@ class Pixel(object):
         self.bottomRight = bottomRight  # bottom right point of pixel
 
 
-class Image(object):
-
-    def __init__(self, image):
-        self.image = image
-        self.size = image.size
-
 
 
 
