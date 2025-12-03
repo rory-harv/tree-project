@@ -27,6 +27,8 @@ class Node:
         self.topRight = topRight
         self.bottomLeft = bottomLeft
         self.bottomRight = bottomRight
+        self.children = []      # for image compressor
+        self.average_color = None   # for image compressor
 
 class Rectangle:
     """Information about the quadrant and boundaries."""
@@ -170,7 +172,7 @@ if __name__ == '__main__':
     center_boundary = Rectangle(0, 0, 200, 200) # creates broad boundary box for the tree to be contained within 
     #quadtree = Quadtree(center_boundary, 4)  # n capacity (multiple of 4)
 
-    quadtree = Quadtree.createQuad(center_boundary, 4)
+    quadtree: Quadtree = Quadtree.createQuad(center_boundary, 4)
     
     # insert random points
 
