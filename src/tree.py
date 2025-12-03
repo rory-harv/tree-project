@@ -20,15 +20,18 @@ class Point:
 class Node:
     """Objects to be stored in the quadtree."""
 
-    def __init__(self, val: Point, isLeaf: bool, topLeft, topRight, bottomLeft, bottomRight):
+    #def __init__(self, val: Point, isLeaf: bool, topLeft, topRight, bottomLeft, bottomRight):
+    def __init__(self, val: Point, width: int, height: int, color = None, children = None):
         self.val = val
-        self.isLeaf = isLeaf    # determines where/what the node is 
-        self.topLeft = topLeft
-        self.topRight = topRight
-        self.bottomLeft = bottomLeft
-        self.bottomRight = bottomRight
-        self.children = []      # for image compressor
-        self.average_color = None   # for image compressor
+        #self.isLeaf = isLeaf    # determines where/what the node is 
+        #self.topLeft = topLeft
+        #self.topRight = topRight
+        #self.bottomLeft = bottomLeft
+        #self.bottomRight = bottomRight
+        self.width = width
+        self.height = height
+        self.children = children      # for image compressor
+        self.color = color   # for image compressor
 
 class Rectangle:
     """Information about the quadrant and boundaries."""

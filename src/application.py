@@ -8,7 +8,7 @@ import numpy as np
 
 #QUAD_BOUNDARY = Rectangle(0, 0, 200, 200)   # largest boundary to contain the Quadtree
 N_CAPACITY = 100      # max capacity of the Quadtree
-
+MAX_DEPTH = 5       # max depth of the tree
 
 class Pixel:
     """Stores information about the pixels of the image."""
@@ -56,19 +56,21 @@ class Img:
         """Checks to see if the standard deviation of colors is low."""
         return np.std(region) < threshold
     
-    def calculateHomogeneity(self, region, x: int, y: int, width: int, height: int):
+    def calculateHomogeneity(self, region, x: int, y: int, width: int, height: int) -> Node:
         """Calculates the homogenity metric of the colors of the region."""
         if N_CAPACITY == 0 or self.isHomogeneous(region, N_CAPACITY):
-            self.average_color = np.mean(region, axis=(0, 1)).astype(int)
+            average_color = np.mean(region, axis=(0, 1)).astype(int)
+            return Node(Point(x, y), width, height, color = average_color)
         else:
             half_width = width // 2
             half_height = height // 2
             
-            self.children.append(Node(Point(x, y), half_width, half_height, image_data, max_depth - 1, threshold))
-            self.children.append(Node(Point(x + half_width, y), width - half_width, half_height, image_data, max_depth - 1, threshold))
-            self.children.append(Node(Point(x, y + half_height), half_width, height - half_height, image_data, max_depth - 1, threshold))
-            self.children.append(Node(Point(x + half_width, y + half_height), width - half_width, height - half_height, image_data, max_depth - 1, threshold))
+            children = [Node(Point(x, y), half_width, half_height, MAX_DEPTH - 1, N_CAPACITY),
+                        Node(Point(x + half_width, y), width - half_width, half_height, MAX_DEPTH - 1, N_CAPACITY),
+                        Node(Point(x, y + half_height), half_width, height - half_height, MAX_DEPTH - 1, N_CAPACITY),
+                        Node(Point(x + half_width, y + half_height), width - half_width, height - half_height, MAX_DEPTH - 1, N_CAPACITY)]
 
+            return Node(Point(x, y), width, height, children=children)
 
 
 
