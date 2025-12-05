@@ -37,7 +37,12 @@ def reconstruct_image(node: Node, output_image_array):
 
 if __name__ == '__main__':
 
-    print("Welcome to image compressor!")
+    print("Welcome to Image Compressor!")
+    print()
+    print("This program will ask you to enter a file path for the image you would like to compress.")
+    print("File path should be in the format of 'folder/filename'.")
+    print("You will also be asked for a threshold integer. This value determines the level of compression for your image.")
+    print("A higher integer value will result in an increased compression. Try '20' as a starter value!")
     print()
 
     image_path = input("Please enter an image path name: ") # ex input: "images/plants.JPG"
@@ -59,7 +64,7 @@ if __name__ == '__main__':
         points = points[indices]
 
 
-    threshold_value = int(input("Please enter a threshold value integer (higher int value results in increased compression): "))
+    threshold_value = int(input("Please enter a threshold value integer: "))
     root_node = build_quadtree(img_np, 0, 0, img.width, img.height, threshold_value)
 
     compressed_img_array = np.zeros_like(img_np)
@@ -69,5 +74,5 @@ if __name__ == '__main__':
     print()
     print(f"Compressed image filepath: {image_path}_compressed.png")
     print()
-    print("Thank you for using our image compressor!")
+    print("Thank you for using Image Compressor!")
     compressed_img.save(f"{image_path}_compressed.png")     # saves compressed image
