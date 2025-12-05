@@ -20,14 +20,8 @@ class Point:
 class Node:
     """Objects to be stored in the quadtree."""
 
-    #def __init__(self, val: Point, isLeaf: bool, topLeft, topRight, bottomLeft, bottomRight):
     def __init__(self, val: Point, width: int, height: int, color = None, children = None):
         self.val = val
-        #self.isLeaf = isLeaf    # determines where/what the node is 
-        #self.topLeft = topLeft
-        #self.topRight = topRight
-        #self.bottomLeft = bottomLeft
-        #self.bottomRight = bottomRight
         self.width = width
         self.height = height
         self.children = children      # for image compressor
@@ -184,7 +178,7 @@ if __name__ == '__main__':
     quadtree.insert(Point(75, 15, "c"))
     quadtree.insert(Point(0, 0, "d"))
     quadtree.insert(Point(50, 50, "e"))
-    quadtree.delete(Point(10, 30, "b")) # deletes point a? - no
+    quadtree.delete(Point(10, 30, "b")) 
 
 
     

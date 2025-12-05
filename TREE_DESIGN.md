@@ -40,6 +40,9 @@ class IQuad(Protocol):
     Space: Time: O(log n) + O(n) - average - where n is the number of points, plus the space required to store the quadtree nodes themselves 
     """
 
+Implementation Notes:
+Use np arrays to store image information when compressing the images, also main recursive function for application process. Also both in base tree and in application files, using a downsize factor and pixel limit to have the program execute faster and decrease overall runtimes. 
+
 
 
 
