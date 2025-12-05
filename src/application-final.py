@@ -5,7 +5,7 @@ import numpy as np
 
 DOWNSAMPLE_FACTOR = 4   # constant factor to downsize image
 MAX_POINTS = 50000  # constant number of max pixels/points to traverse from the image
-THRESHOLD_VALUE = 20    # constant factor to determine image compression against the quality of the image
+# THRESHOLD_VALUE = 20    # optional constant factor to determine image compression against the quality of the image
 
 def build_quadtree(image_data, x: int, y: int, width: int, height: int, threshold: int) -> Node:
     """Recursive function that looks for homogeneity within the image and returns a leaf node."""
@@ -36,7 +36,12 @@ def reconstruct_image(node: Node, output_image_array):
 
 
 if __name__ == '__main__':
+
+    print("Welcome to image compressor!")
+    print()
+
     image_path = input("Please enter an image path name: ") # ex input: "images/plants.JPG"
+
     try:
         img = Image.open(image_path).convert("RGB")
     except:
