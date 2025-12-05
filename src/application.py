@@ -12,7 +12,7 @@ def build_quadtree(image_data, x: int, y: int, width: int, height: int, threshol
     region = image_data[y : y + height, x : x + width] # calculate color variance (sum of squared differences from mean)
 
     if np.std(region, axis=(0, 1)).max() < threshold or min(width, height) <= 1: # check for a small region or homogeneous
-        avg_color = np.mean(region, axis=(0, 1)).astype(int)    # gathers average color from the focused region
+        avg_color = np.mean(region, axis = (0, 1)).astype(int)    # gathers average color from the focused region
         return Node(Point(x, y), width, height, color = avg_color)  # returns compressed node
     else:
         half_width = width // 2
@@ -26,8 +26,8 @@ def build_quadtree(image_data, x: int, y: int, width: int, height: int, threshol
             build_quadtree(image_data, x + half_width, y + half_height, width - half_width, height - half_height, threshold)]
         return Node(Point(x, y), width, height, children = children)    # returns compressed node with its children
 
-def reconstruct_image(node: Node, output_image_array):
-    """Recurisve function that traverses nodes in the quadtree and finds the node's color."""
+def reconstruct_image(node: Node, output_image_array) -> None:
+    """Recursive function that traverses nodes in the quadtree and finds the node's color."""
     if node.color is not None:  # node is a leaf node
         output_image_array[node.val.y : node.val.y + node.height, node.val.x : node.val.x + node.width] = node.color
     else:  # node is an internal node
